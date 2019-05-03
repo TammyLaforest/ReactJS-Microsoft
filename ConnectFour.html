@@ -10,7 +10,50 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			ReactDOM.render(<Game />, document.getElementById('root'))
+			function Circle(props) {
+				let style = {
+					backgroundColor: 'white',
+					border: '1px solid black',
+					borderRadius: '100%',
+					paddingTop: '98%'
+				}
+				return <div style={style} />
+			}
+
+			function Cell(props) {
+				let style = {
+					height: 50,
+					width: 50,
+					border: '1px solid black',
+					backgroundColor: 'yellow'
+				}
+				return (
+					<div style={style}>
+						<Circle />
+					</div>
+				)
+			}
+
+			function Row(props) {
+				let style = {
+					display: 'flex'
+				}
+				let cells = []
+				for (let i = 0; i < 7; i++) {
+					cells.push(<Cell />)
+				}
+				return <div style={style}>{cells}</div>
+			}
+
+			function Board(props) {
+				let rows = []
+				for (let i = 5; i >= 0; i--) {
+					rows.push(<Row />)
+				}
+				return <div>{rows}</div>
+			}
+
+			ReactDOM.render(<Board />, document.getElementById('root'))
 		</script>
 	</body>
 </html>
