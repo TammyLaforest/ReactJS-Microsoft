@@ -10,20 +10,14 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			// function Feature(props){
-			//         if(props.active!){
-			//             return null
-			//         }
-			//         else{
-			//             return <h1>{props.message}</h1>
-			//         }
-			//     }
-
 			function Feature(props) {
 				return props.active && <h1>{props.message}</h1>
 			}
 
-			ReactDOM.render(<Feature />, document.getElementById('root'))
+			ReactDOM.render(
+				<Feature active={true} message={'hello, my friend'} />,
+				document.getElementById('root')
+			)
 		</script>
 	</body>
 </html>
