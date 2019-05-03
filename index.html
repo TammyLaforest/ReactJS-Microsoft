@@ -9,16 +9,13 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			var num = 0
+			ReactDOM.render(<HelloWorld />, document.getElementById('root'))
 
-			function updateNum() {
-				ReactDOM.render(
-					<div>{num++}</div>,
-					document.getElementById('root')
-				)
+			function HelloWorld() {
+				return <h1>Hello World!</h1>
 			}
 
-			setInterval(updateNum, 100)
+			var element = <HelloWorld />
 		</script>
 	</body>
 </html>
