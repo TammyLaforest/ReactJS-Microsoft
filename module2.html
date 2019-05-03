@@ -10,22 +10,21 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			// Class style react component
-			class Welcome extends React.Component {
+			class Counter extends React.Component {
+				constructor(props) {
+					super(props)
+					this.state = { foo: 123, bar: 456 }
+				}
 				render() {
-					return <h1>Hello, {this.props.name}!</h1>
+					return (
+						<div>
+							foo: {this.state.foo} bar: {this.state.bar}
+						</div>
+					)
 				}
 			}
 
-			// Functional component
-			// function Welcome() {
-			// 	return <h1>Hello World!</h1>
-			// }
-
-			ReactDOM.render(
-				<Welcome name='Tammy' />,
-				document.getElementById('root')
-			)
+			ReactDOM.render(<Counter />, document.getElementById('root'))
 		</script>
 	</body>
 </html>
