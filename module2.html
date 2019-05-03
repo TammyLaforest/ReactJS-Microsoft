@@ -13,17 +13,22 @@
 			class Counter extends React.Component {
 				constructor(props) {
 					super(props)
-					this.state = { message: 'initial message' }
+					this.state = { count: 0 }
+
+					this.clickHandler = this.clickHandler.bind(this)
 				}
-				componentDidMount() {
-					// updates the state based on previous state
+				clickHandler() {
 					this.setState((prevState, props) => {
-						return { message: prevState.message + '!' }
+						return { count: prevState.count + 1 }
 					})
 				}
 
 				render() {
-					return <div>message: {this.state.message}</div>
+					return (
+						<button onClick={this.clickHandler}>
+							{this.state.count}
+						</button>
+					)
 				}
 			}
 
