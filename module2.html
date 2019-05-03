@@ -13,14 +13,15 @@
 			class Counter extends React.Component {
 				constructor(props) {
 					super(props)
-					this.state = { foo: 123, bar: 456 }
+					this.state = { message: 'initial message' }
 				}
+				componentDidMount() {
+					// updates the state
+					this.setState({ message: 'new message' })
+				}
+
 				render() {
-					return (
-						<div>
-							foo: {this.state.foo} bar: {this.state.bar}
-						</div>
-					)
+					return <div>message: {this.state.message}</div>
 				}
 			}
 
