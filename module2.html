@@ -16,8 +16,10 @@
 					this.state = { message: 'initial message' }
 				}
 				componentDidMount() {
-					// updates the state
-					this.setState({ message: 'new message' })
+					// updates the state based on previous state
+					this.setState((prevState, props) => {
+						return { message: prevState.message + '!' }
+					})
 				}
 
 				render() {
