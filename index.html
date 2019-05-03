@@ -9,13 +9,14 @@
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
-			ReactDOM.render(<HelloWorld />, document.getElementById('root'))
-
-			function HelloWorld() {
-				return <h1>Hello World!</h1>
+			function HelloWorld(props) {
+				return <h1>Value: {props.numberArray[props.index]} </h1>
 			}
 
-			var element = <HelloWorld />
+			ReactDOM.render(
+				<HelloWorld index='3' numberArray={[1, 2, 3, 4, 5]} />,
+				document.getElementById('root')
+			)
 		</script>
 	</body>
 </html>
