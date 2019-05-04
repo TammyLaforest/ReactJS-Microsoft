@@ -24,21 +24,128 @@ The user should be able to go through at least 10 questions -->
 	<body>
 		<div id="root"></div>
 		<script type="text/babel">
+			class Question extends React.Component {
+				render() {
+					return <h1>{this.props.question}</h1>
+				}
+			}
+			class Correct extends React.Component {
+				render() {
+					return (
+						<div>
+							<h3>Correct: {this.props.correct}</h3>
+							<h3>Incorrect: {this.props.incorrect}</h3>
+						</div>
+					)
+				}
+			}
+
+			class Answer extends React.Component {
+				render() {
+					return (
+						<button
+							style={{
+								color: this.props.active ? 'red' : 'blue'
+							}}
+							onClick={() => {
+								this.props.clickHandler(
+									this.props.id,
+									this.props.answer
+								)
+							}}>
+							{this.props.answer}
+						</button>
+					)
+				}
+			}
+
 			class Trivia extends React.Component {
 				constructor(props) {
 					super(props)
-					// this.clickHandler = this.clickHandler.bind(this)
+					this.state = {
+						activeArray: [0, 0, 0, 0],
+						question: 0,
+						correct: 0,
+						incorrect: 0
+					}
+					this.clickHandler = this.clickHandler.bind(this)
 				}
 
-				// handleClick() {}
+				clickHandler(id) {
+					let arr = [0, 0, 0, 0]
+					arr[id] = 1
+
+					// console.log(id)
+
+					let stuff = generateQuestion()
+					this.setState({
+						activeArray: arr,
+						question: `What is ${stuff[0]} x ${stuff[1]}?`,
+						answer: stuff[2],
+						wrong: stuff[3]
+					})
+					console.log(`stuff: ${stuff}`)
+					console.log(`question: ${this.state.question}`)
+					console.log(`answer: ${this.state.answer}`)
+					console.log(`wrong1: ${this.state.wrong1}`)
+				}
 
 				render() {
 					return (
 						<div>
-							<h1>Test Title</h1>
+							<Correct correct='0' incorrect='0' />
+							<Question question='3x3' />
+
+							<Answer
+								id={0}
+								active={this.state.activeArray[0]}
+								clickHandler={this.clickHandler}
+								answer='1'
+							/>
+
+							<Answer
+								id={1}
+								active={this.state.activeArray[1]}
+								clickHandler={this.clickHandler}
+								answer='2'
+							/>
+							<Answer
+								id={2}
+								active={this.state.activeArray[2]}
+								clickHandler={this.clickHandler}
+								answer='3'
+							/>
+							<Answer
+								id={3}
+								active={this.state.activeArray[3]}
+								clickHandler={this.clickHandler}
+								answer='4'
+							/>
 						</div>
 					)
 				}
+			}
+
+			function generateQuestion() {
+				let theQuestion1 = Math.round(10 * Math.random())
+
+				let theQuestion2 = Math.round(10 * Math.random())
+
+				let theAnswer = theQuestion1 * theQuestion2
+
+				let wrongAnswers = []
+				let solution = 0
+				for (let i = 0; i < 3; i++) {
+					do {
+						solution =
+							Math.round(10 * Math.random()) *
+							Math.round(10 * Math.random())
+						console.log(`solution: ${solution}`)
+					} while (solution == theAnswer)
+
+					wrongAnswers.push(solution)
+				}
+				return [theQuestion1, theQuestion2, theAnswer, wrongAnswers]
 			}
 
 			ReactDOM.render(<Trivia />, document.getElementById('root'))
