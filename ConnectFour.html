@@ -59,16 +59,6 @@
 						/>
 					)
 				}
-				// Does this go here?
-				// cells.push(
-				// 				<Cell
-				// 					key={i}
-				// 					cell={props.cells[i]}
-				// 					row={props.row}
-				// 					col={i}
-				// 					handleClick={props.handleClick}
-				// 				/>
-				// 			)
 
 				return <div style={style}>{cells}</div>
 			}
@@ -86,15 +76,6 @@
 					)
 				}
 
-				// Does this go here?
-				// rows.push(
-				// 	<Row
-				// 		key={i}
-				// 		row={i}
-				// 		cells={props.cells[i]}
-				// 		handleClick={props.handleClick}
-				// 	/>
-				// )
 				return <div>{rows}</div>
 			}
 
@@ -109,9 +90,16 @@
 
 					this.handleClick = this.handleClick.bind(this)
 				}
-				// Does this go here?
+
 				handleClick(row, col) {
 					console.log('row: ' + row + ' | col: ' + col)
+					console.log(this.state.cells)
+					let temp = []
+					for (let i = 0; i < 6; i++) {
+						temp.push(this.state.cells[i].slice())
+					}
+					temp[row][col] = this.state.player ? 1 : 2
+					this.setState({ cells: temp, player: !this.state.player })
 				}
 				// this function resets the state
 				restart() {
@@ -124,7 +112,11 @@
 				render() {
 					return (
 						<div>
-							<h1>Black's Turn</h1>
+							<h1>
+								{this.state.player
+									? "Black's Turn"
+									: "Red's Turn"}
+							</h1>
 							<Board
 								cells={this.state.cells}
 								handleClick={this.handleClick}
