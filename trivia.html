@@ -78,6 +78,7 @@ The user should be able to go through at least 10 questions -->
 					// console.log(id)
 
 					let stuff = generateQuestion()
+					// Need the below to be a callback
 					this.setState({
 						activeArray: arr,
 						question: `What is ${stuff[0]} x ${stuff[1]}?`,
@@ -127,21 +128,24 @@ The user should be able to go through at least 10 questions -->
 			}
 
 			function generateQuestion() {
-				let theQuestion1 = Math.round(10 * Math.random())
+				let theQuestion1 = Math.round(10 * Math.random() + 1)
 
-				let theQuestion2 = Math.round(10 * Math.random())
+				let theQuestion2 = Math.round(10 * Math.random() + 1)
 
 				let theAnswer = theQuestion1 * theQuestion2
 
-				let wrongAnswers = []
+				var wrongAnswers = []
 				let solution = 0
 				for (let i = 0; i < 3; i++) {
 					do {
 						solution =
 							Math.round(10 * Math.random()) *
 							Math.round(10 * Math.random())
-						console.log(`solution: ${solution}`)
-					} while (solution == theAnswer)
+						// console.log(`solution: ${solution}`)
+					} while (
+						solution == theAnswer &&
+						wrongAnswers.includes(solution)
+					)
 
 					wrongAnswers.push(solution)
 				}
