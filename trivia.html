@@ -182,14 +182,15 @@ The user should be able to go through at least 10 questions -->
 
 				let solution = 0
 				for (let i = 0; i < 3; i++) {
-					do {
+					while (
+						solution == theAnswer ||
+						newQuestion.includes(solution) ||
+						solution == 0
+					) {
 						solution =
 							Math.round(10 * Math.random()) *
 							Math.round(10 * Math.random())
-					} while (
-						solution == theAnswer &&
-						newQuestion.includes(solution)
-					)
+					}
 
 					newQuestion.push(solution)
 				}
