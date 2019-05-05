@@ -23,52 +23,97 @@ The user should be able to go through at least 10 questions -->
 			class Correct extends React.Component {
 				render() {
 					let style = {
-						color: 'green'
+						width: '150px',
+						textAlign: 'center'
 					}
 					return <h2 style={style}>{this.props.answer}</h2>
 				}
 			}
-			class Start extends React.Component {
+
+			class Score extends React.Component {
 				render() {
+					let style = {
+						width: '150px',
+						textAlign: 'center'
+					}
+
 					return (
-						<button
-							onClick={() => {
-								this.props.clickHandler(this.props.id)
-							}}>
-							Start New Game{' '}
-						</button>
+						<div style={style}>
+							<p>Correct: {this.props.correct}</p>
+							<p>Incorrect: {this.props.incorrect}</p>
+							<p>
+								Question {this.props.questionId} of{' '}
+								{this.props.numQuestions}
+							</p>
+						</div>
 					)
 				}
 			}
-			class Score extends React.Component {
+
+			class ShowAnswer extends React.Component {
 				render() {
+					let style = {
+						padding: '20px 10px',
+						width: '150px',
+						textAlign: 'center',
+						backgroundColor: '#add8e6'
+					}
+
 					return (
-						<div>
-							<h3>Correct: {this.props.correct}</h3>
-							<h3>Incorrect: {this.props.incorrect}</h3>
-							<h3>
-								Question {this.props.questionId} of{' '}
-								{this.props.numQuestions}
-							</h3>
-						</div>
+						<button
+							style={style}
+							// onClick={() => {
+							// 	this.props.clickHandler(this.props.id)
+							// }}>
+						>
+							Show answer
+						</button>
 					)
 				}
 			}
 
 			class Answer extends React.Component {
 				render() {
+					let style = {
+						padding: '10px 5px',
+						width: '150px',
+						textAlign: 'center'
+					}
+
+					return (
+						<div>
+							<button
+								style={style}
+								onClick={() => {
+									this.props.clickHandler(
+										this.props.id,
+										this.props.guess
+									)
+								}}>
+								{this.props.guess}
+							</button>
+							<br />
+						</div>
+					)
+				}
+			}
+
+			class Start extends React.Component {
+				render() {
+					let style = {
+						padding: '20px 10px',
+						width: '150px',
+						textAlign: 'center',
+						backgroundColor: '#add8e6'
+					}
+
 					return (
 						<button
-							style={{
-								color: this.props.active ? 'red' : 'blue'
-							}}
+							style={style}
 							onClick={() => {
-								this.props.clickHandler(
-									this.props.id,
-									this.props.guess
-								)
+								this.props.clickHandler(this.props.id)
 							}}>
-							{this.props.guess}
+							Start New Game{' '}
 						</button>
 					)
 				}
@@ -152,6 +197,7 @@ The user should be able to go through at least 10 questions -->
 							/>
 							<Question question={this.state.question} />
 							<Correct answer={this.state.answer} />
+							<ShowAnswer />
 
 							<Answer
 								id={0}
