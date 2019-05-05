@@ -28,12 +28,31 @@ The user should be able to go through at least 10 questions -->
 					return <h2 style={style}>{this.props.answer}</h2>
 				}
 			}
+			class Start extends React.Component {
+				render() {
+					// let style = {
+					// 	color: 'green'
+					// }
+					return (
+						<button
+							onClick={() => {
+								this.props.clickHandler(this.props.id)
+							}}>
+							Start New Game{' '}
+						</button>
+					)
+				}
+			}
 			class Score extends React.Component {
 				render() {
 					return (
 						<div>
 							<h3>Correct: {this.props.correct}</h3>
 							<h3>Incorrect: {this.props.incorrect}</h3>
+							<h3>
+								Question {this.props.questionId} of{' '}
+								{this.props.numQuestions}
+							</h3>
 						</div>
 					)
 				}
@@ -49,10 +68,10 @@ The user should be able to go through at least 10 questions -->
 							onClick={() => {
 								this.props.clickHandler(
 									this.props.id,
-									this.props.answer
+									this.props.guess
 								)
 							}}>
-							{this.props.answer}
+							{this.props.guess}
 						</button>
 					)
 				}
@@ -63,28 +82,44 @@ The user should be able to go through at least 10 questions -->
 					super(props)
 					this.state = {
 						activeArray: [0, 0, 0, 0],
-						question: 0,
+						question: 'Click to start',
+						questionId: 0,
+						numQuestions: 10,
 						correct: 0,
-						incorrect: 0
+						incorrect: 0,
+						answer: ''
 					}
 					this.clickHandler = this.clickHandler.bind(this)
 				}
 
-				clickHandler(id) {
-					let arr = [0, 0, 0, 0]
-					arr[id] = 1
+				clickHandler() {
+					// First show the correct answer
 
-					// console.log(id)
+					// Then generate the new question
 
-					let stuff = generateQuestion()
-					// Need the below to be a callback
+					// Call  generateQuestion()
+					let newQuestion = generateQuestion()
+
+					// Then shuffle the answers
+					let sliced = newQuestion.slice(2, 7)
+					console.log(sliced)
+
+					// Call shuffle function on answers
+					let shuffled = shuffle(sliced)
+					console.log(`shuffled: ${shuffled}`)
+
+					// setState for newQuestion
 					this.setState({
-						activeArray: arr,
-						question: `What is ${stuff[0]} x ${stuff[1]}?`,
-						answer: stuff[2],
-						wrong: stuff[3]
+						question: `What is ${newQuestion[0]} x ${
+							newQuestion[1]
+						}?`,
+						answer: newQuestion[2],
+						guess1: shuffled[0],
+						guess2: shuffled[1],
+						guess3: shuffled[2],
+						guess4: shuffled[3]
 					})
-					console.log(`stuff: ${stuff}`)
+					console.log(`newQuestion: ${newQuestion}`)
 					console.log(`question: ${this.state.question}`)
 					console.log(`answer: ${this.state.answer}`)
 					console.log(`wrong1: ${this.state.wrong1}`)
@@ -93,63 +128,94 @@ The user should be able to go through at least 10 questions -->
 				render() {
 					return (
 						<div>
-							<Score correct='0' incorrect='0' />
-							<Question question='3x3' />
-							<Correct answer='9' />
+							<Score
+								correct={this.state.correct}
+								incorrect={this.state.incorrect}
+								questionId={this.state.questionId}
+								numQuestions={this.state.numQuestions}
+							/>
+							<Question question={this.state.question} />
+							<Correct answer={this.state.answer} />
 
 							<Answer
 								id={0}
 								active={this.state.activeArray[0]}
 								clickHandler={this.clickHandler}
-								answer='1'
+								guess={this.state.guess1}
 							/>
 
 							<Answer
 								id={1}
 								active={this.state.activeArray[1]}
 								clickHandler={this.clickHandler}
-								answer='2'
+								guess={this.state.guess2}
 							/>
 							<Answer
 								id={2}
 								active={this.state.activeArray[2]}
 								clickHandler={this.clickHandler}
-								answer='3'
+								guess={this.state.guess3}
 							/>
 							<Answer
 								id={3}
 								active={this.state.activeArray[3]}
 								clickHandler={this.clickHandler}
-								answer='4'
+								guess={this.state.guess4}
 							/>
+							<Start clickHandler={this.clickHandler} />
 						</div>
 					)
 				}
 			}
 
 			function generateQuestion() {
+				let newQuestion = []
 				let theQuestion1 = Math.round(10 * Math.random() + 1)
+				newQuestion.push(theQuestion1)
 
 				let theQuestion2 = Math.round(10 * Math.random() + 1)
+				newQuestion.push(theQuestion2)
 
 				let theAnswer = theQuestion1 * theQuestion2
 
-				var wrongAnswers = []
+				newQuestion.push(theAnswer)
+
 				let solution = 0
 				for (let i = 0; i < 3; i++) {
 					do {
 						solution =
 							Math.round(10 * Math.random()) *
 							Math.round(10 * Math.random())
-						// console.log(`solution: ${solution}`)
 					} while (
 						solution == theAnswer &&
-						wrongAnswers.includes(solution)
+						newQuestion.includes(solution)
 					)
 
-					wrongAnswers.push(solution)
+					newQuestion.push(solution)
 				}
-				return [theQuestion1, theQuestion2, theAnswer, wrongAnswers]
+				return newQuestion
+			}
+
+			function shuffle(sliced) {
+				let resultArr = []
+				let randomIndex = 0
+				let shuffled = []
+
+				// Generate array of random indexes 0-3
+				for (let i = 0; i < 4; i++) {
+					do {
+						randomIndex = Math.floor(Math.random() * 4)
+						console.log(randomIndex)
+					} while (resultArr.includes(randomIndex))
+					resultArr.push(randomIndex)
+					// console.log(`result arr: ${resultArr}`)
+				}
+				// sample data 1,0,3,2
+				for (let i = 0; i < 4; i++) {
+					shuffled.push(sliced[resultArr[i]])
+					// console.log(shuffled)
+				}
+				return shuffled
 			}
 
 			ReactDOM.render(<Trivia />, document.getElementById('root'))
